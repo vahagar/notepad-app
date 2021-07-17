@@ -7,39 +7,107 @@ import MyNotes from "../../MyNotes/MyNotes";
 import Button from "../../reusables/Button/Button";
 
 import classes from './NotePadItem.module.css'
-import {getNotePadAction} from "../../../store/actions/notePadActions";
+import {getNotePadAction, updateNotePadAction} from "../../../store/actions/notePadActions";
 
 const NotePadItem = (props) => {
     const {id} = useParams();
     const dispatch = useDispatch()
     const notePadItem = useSelector(state => state.notePad.listById[id]);
     const [title, setTitle] = useState(notePadItem?.description || '');
+    const [addedNot, setAddedNot] = useState({filename: '', content: ''})
 
     const [notes, setNotes] = useState({})
 
-    const changeFieldValue = (fileName, key, value) => {
-        const f = {...notes[fileName]};
-        f[key] = value
-        const n = {...notes};
-        n[fileName] = f;
-        console.log(n)
-        setNotes(n)
-    }
-
     useEffect(() => {
-        if(notePadItem){
+        if (notePadItem) {
             setTitle(notePadItem?.description)
             setNotes(notePadItem.files)
         }
     }, [notePadItem])
 
     useEffect(() => {
-        if(id){
+        if (id) {
             dispatch(getNotePadAction(id))
         }
     }, [id, dispatch])
 
-    if(!notePadItem){
+    const addNote = (addForm) => {
+        let isValid = true;
+        if (!/^[\s\S]{1,255}$/.test(addedNot.filename)) {
+            console.log('[Note Title]: Non blank, max 255 characters');
+            isValid = false
+        }
+        if (Object.keys(notes).some(filename => filename === addedNot.filename)) {
+            console.log('[Note Title]: Not`s Titles must be unique');
+            isValid = false
+        }
+        if (!/^[\s\S]{1,1000}$/.test(addedNot.content)) {
+            console.log('[Note Content]: Non blank, max 1000 characters');
+            isValid = false
+        }
+        if (isValid) {
+            setNotes({
+                ...notes,
+                [addedNot.filename]: addedNot
+            })
+            setAddedNot({filename: '', content: ''})
+            addForm.reset()
+        }
+    }
+
+    const changeFieldValue = (fileName, key, value, add) => {
+        if (add) {
+            setAddedNot({
+                ...addedNot,
+                [key]: value,
+            })
+        } else {
+            const f = {...notes[fileName]};
+            f[key] = value
+            const n = {...notes};
+            n[fileName] = f;
+            setNotes(n)
+        }
+    }
+
+    const deleteNote = (filename) => {
+        const n = {...notes}
+        delete n[filename]
+        setNotes(n)
+    }
+
+    const onSave = () => {
+        let isValid = true
+        if (!/^[\s\S]{1,255}$/.test(title)) {
+            console.log('[NotePad Title]: Non blank, max 255 characters');
+            isValid = false
+        }
+        const keys = Object.keys(notes);
+        if (!keys.length) {
+            console.log('Notes: Array of Notes, at least one note is required');
+            isValid = false
+        } else {
+            keys.forEach(key => {
+                if (!/^[\s\S]{1,255}$/.test(notes[key].filename)) {
+                    console.log('[Note Title]: Non blank, max 255 characters');
+                    isValid = false
+                }
+                if (!/^[\s\S]{1,1000}$/.test(notes[key].content)) {
+                    console.log('[Note Content]: Non blank, max 1000 characters');
+                    isValid = false
+                }
+            })
+        }
+        if (isValid) {
+            dispatch(updateNotePadAction({
+                gist_id: id,
+                description: title,
+                files: notes
+            }))
+        }
+    }
+
+    if (!notePadItem) {
         return <h1 style={{color: 'red'}}>Notepad not found</h1>
     }
 
@@ -58,12 +126,19 @@ const NotePadItem = (props) => {
                     />
                 </div>
                 <div className='mt-10'>
-                    <Button title='Save' type='save' style={{marginRight: '10px'}}/>
-                    <Button title='Delete' type='delete' />
+                    <Button title='Save' type='save'
+                            style={{marginRight: '10px'}}
+                            onClick={onSave}
+                    />
+                    <Button title='Delete' type='delete'/>
                 </div>
             </div>
 
-            <MyNotes notes={notes} changeFieldValue={changeFieldValue}/>
+            <MyNotes notes={notes}
+                     changeFieldValue={changeFieldValue}
+                     addNote={addNote}
+                     deleteNote={deleteNote}
+            />
         </div>
     )
 }

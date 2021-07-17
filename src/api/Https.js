@@ -15,13 +15,19 @@ const apiCall = async (url, method = 'get', params) => {
     //     'client_secret': '(API SECRET)',
     //     'grant_type': 'client_credentials'
     // })
+    const options = {
+        url: postUrl,
+        method,
+        headers,
+    }
+    if(method === 'get'){
+        options.params = params
+    } else {
+        options.data = params
+    }
+
     try {
-        const response = await axios({
-            url: postUrl,
-            method,
-            headers,
-            params
-        });
+        const response = await axios(options);
 
         // if (method === requestMethods.delete) return response;
         return response?.data

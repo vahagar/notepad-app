@@ -8,9 +8,17 @@ export const getNotePadListAction = () => async (dispatch) => {
     }
 };
 
-export const getNotePadAction = (gist_id) => async (dispatch) => {
+export const getNotePadAction = gist_id => async (dispatch) => {
     const response = await apiCall(`/gists/${gist_id}`)
     if (response) {
         dispatch(setGistData(response));
+    }
+};
+
+export const updateNotePadAction = params => async (dispatch) => {
+    const response = await apiCall(`/gists/${params.gist_id}`, 'PATCH', params)
+    console.log(response)
+    if (response) {
+        // dispatch(setGistData(response));
     }
 };

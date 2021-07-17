@@ -1,6 +1,9 @@
 import React from 'react';
 import {BrowserRouter} from "react-router-dom";
-import {Switch, Route, Redirect} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom';
+
+import NotePadList from './components/NotePadList/NotePadList';
+import NotePadItem from './components/NotePadList/NotePadItem/NotePadItem';
 
 import './App.css';
 
@@ -16,14 +19,3 @@ export default function App() {
     );
 }
 
-function NotePadList() {
-    return (
-        <h2> NotePad List Component </h2>
-    )
-}
-
-function NotePadItem() {
-    return (
-        <h2> NotePad Item Component </h2>
-    )
-}

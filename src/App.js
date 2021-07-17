@@ -10,11 +10,14 @@ import './App.css';
 export default function App() {
     return (
         <BrowserRouter>
-            <Switch>
-                <Route path='/:id' component={NotePadItem}/>
-                <Route path='/' component={NotePadList}/>
-                <Redirect to='/'/>
-            </Switch>
+            <div className='h1'>Notepad Application</div>
+            <div className='content-container'>
+                <Switch>
+                    <Route path='/:id' component={NotePadItem}/>
+                    <Route path='/' component={NotePadList}/>
+                    <Redirect to='/'/>
+                </Switch>
+            </div>
         </BrowserRouter>
     );
 }

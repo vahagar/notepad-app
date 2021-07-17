@@ -1,0 +1,21 @@
+.delete{
+    background-color: #EC3646
+}
+
+.save{
+    background-color: #39ACDC
+}
+
+.add{
+    background-color: #57B93E;
+}
+
+.button{
+    padding: 10px 20px;
+    color: #FFFFFF;
+    font-size: 14px;
+    border: 1px solid #CCC;
+    cursor: pointer;
+    border-radius: 5px;
+    min-width: 80px;
+}

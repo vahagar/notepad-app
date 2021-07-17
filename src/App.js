@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React from 'react';
+import {BrowserRouter} from "react-router-dom";
+import {Switch, Route, Redirect} from 'react-router-dom'
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    return (
+        <BrowserRouter>
+            <Switch>
+                <Route path='/:id' component={NotePadItem}/>
+                <Route path='/' component={NotePadList}/>
+                <Redirect to='/'/>
+            </Switch>
+        </BrowserRouter>
+    );
 }
 
-export default App;
+function NotePadList() {
+    return (
+        <h2> NotePad List Component </h2>
+    )
+}
+
+function NotePadItem() {
+    return (
+        <h2> NotePad Item Component </h2>
+    )
+}

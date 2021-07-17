@@ -9,7 +9,6 @@ const apiCall = async (url, method = 'get', params) => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'token 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',
     };
     // const body = JSON.stringify({
     //     'client_id': '(API KEY)',

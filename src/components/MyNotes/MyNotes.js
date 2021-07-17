@@ -4,13 +4,12 @@ import AddNote from "./AddNote/AddNote";
 
 import classes from './MyNotes.module.css'
 
-const MyNotes = () => {
+const MyNotes = ({notes, changeFieldValue}) => {
     return(
         <div className={classes.my_notes}>
             <div className='h2'>My Notes</div>
             <AddNote classes={classes}/>
-            <NotesList classes={classes}/>
-
+            <NotesList classes={classes} notes={notes} changeFieldValue={changeFieldValue}/>
         </div>
     )
 }

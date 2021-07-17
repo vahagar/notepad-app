@@ -23,5 +23,3 @@ const NotePadList = () => {
 }
 
 export default NotePadList
-
-// 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Inspector

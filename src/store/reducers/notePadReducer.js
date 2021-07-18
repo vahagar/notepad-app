@@ -1,6 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+
+const loadFromLocalStorage = () => {
+    try {
+        const stateStr = localStorage.getItem('state');
+        return stateStr ? JSON.parse(stateStr) : undefined;
+    } catch (e) {
+        console.error(e);
+        return undefined;
+    }
+};
+
+const persistedStore = loadFromLocalStorage()?.notePad;
+
+const initialState = persistedStore || {
     list: [],
     listById: {},
 }

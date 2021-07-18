@@ -3,7 +3,7 @@ import axios from 'axios';
 const host = 'https://api.github.com';
 
 
-const apiCall = async (url, method = 'get', params) => {
+const apiCall = async (url, method = 'GET', params) => {
     const postUrl = host + url;
     // const authorizationToken = localStorage.getItem('access_token');
     const headers = {
@@ -20,7 +20,7 @@ const apiCall = async (url, method = 'get', params) => {
         method,
         headers,
     }
-    if(method === 'get'){
+    if(method === 'GET'){
         options.params = params
     } else {
         options.data = params
@@ -29,7 +29,7 @@ const apiCall = async (url, method = 'get', params) => {
     try {
         const response = await axios(options);
 
-        // if (method === requestMethods.delete) return response;
+        if (method === 'DELETE') return response;
         return response?.data
     } catch (e) {
         console.log(e)

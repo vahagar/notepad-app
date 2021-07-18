@@ -7,7 +7,12 @@ import MyNotes from "../../MyNotes/MyNotes";
 import Button from "../../reusables/Button/Button";
 
 import classes from './NotePadItem.module.css'
-import {createNotePadAction, getNotePadAction, updateNotePadAction} from "../../../store/actions/notePadActions";
+import {
+    createNotePadAction,
+    deleteNotePadAction,
+    getNotePadAction,
+    updateNotePadAction
+} from "../../../store/actions/notePadActions";
 
 const NotePadItem = (props) => {
     const {id} = useParams();
@@ -118,6 +123,11 @@ const NotePadItem = (props) => {
         }
     }
 
+    const onDelete = () => {
+        dispatch(deleteNotePadAction(id))
+        history.push('/')
+    }
+
     if (!notePadItem && !isCreateMode) {
         return <h1 style={{color: 'red'}}>Notepad not found</h1>
     }
@@ -141,7 +151,9 @@ const NotePadItem = (props) => {
                             style={{marginRight: '10px'}}
                             onClick={onSave}
                     />
-                    <Button title='Delete' type='delete'/>
+                    <Button title='Delete' type='delete'
+                            onClick={onDelete}
+                    />
                 </div>
             </div>
 

@@ -1,4 +1,4 @@
-import {setListData, setGistData} from "../reducers/notePadReducer";
+import {setListData, setGistData, deleteGistData} from "../reducers/notePadReducer";
 import apiCall from "../../api/Https";
 
 export const getNotePadListAction = () => async (dispatch) => {
@@ -26,5 +26,13 @@ export const createNotePadAction = params => async (dispatch) => {
     const response = await apiCall(`/gists`, 'POST', params)
     if (typeof response === 'object' && response && !('error' in response)) {
         dispatch(setGistData(response));
+    }
+};
+
+export const deleteNotePadAction = gist_id => async (dispatch) => {
+    const response = await apiCall(`/gists/${gist_id}`, 'DELETE', {gist_id})
+    if (typeof response === 'object' && response && response.status === 204) {
+        console.log('deleting from store')
+        dispatch(deleteGistData(gist_id));
     }
 };

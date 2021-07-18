@@ -21,13 +21,13 @@ const NotePadList = () => {
                 history.replace({
                     search: '',
                 })
-                const response = await authCall('https://github.com/login/oauth/access_token', "POST", {
+                const response = await authCall('https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token', "POST", {
                     client_id: '88a82b9efbcdf9d796b8',
                     client_secret: '115263a129ed15ba484950cd594457d3f5adb696',
                     code: code,
                 })
                 if(response && typeof response === 'object' && 'access_token' in response){
-                    localStorage.setItem('access_token', JSON.stringify(response.access_token))
+                    localStorage.setItem('access_token', response.access_token)
                     setAuthorized(true)
                 }
             }
@@ -36,7 +36,7 @@ const NotePadList = () => {
 
     useEffect(() => {
         dispatch(getNotePadListAction())
-    }, [dispatch])
+    }, [dispatch, authorized])
 
     const createNotePad = () => {
         history.push('/create')

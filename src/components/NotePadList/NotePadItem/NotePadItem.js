@@ -46,7 +46,7 @@ const NotePadItem = (props) => {
             console.log('[Note Title]: Non blank, max 255 characters');
             isValid = false
         }
-        if (Object.keys(notes).some(filename => filename === addedNot.filename)) {
+        if (Object.keys(notes).filter(filename => notes[filename]).some(filename => filename === addedNot.filename)) {
             console.log('[Note Title]: Not`s Titles must be unique');
             isValid = false
         }
@@ -81,7 +81,8 @@ const NotePadItem = (props) => {
 
     const deleteNote = (filename) => {
         const n = {...notes}
-        delete n[filename]
+        // delete n[filename]
+        n[filename] = null
         setNotes(n)
     }
 
@@ -91,7 +92,7 @@ const NotePadItem = (props) => {
             console.log('[NotePad Title]: Non blank, max 255 characters');
             isValid = false
         }
-        const keys = Object.keys(notes);
+        const keys = Object.keys(notes).filter(filename => notes[filename]);
         if (!keys.length) {
             console.log('Notes: Array of Notes, at least one note is required');
             isValid = false

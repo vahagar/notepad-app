@@ -2,7 +2,7 @@ import {setListData, setGistData, deleteGistData} from "../reducers/notePadReduc
 import apiCall from "../../api/Https";
 
 export const getNotePadListAction = () => async (dispatch) => {
-    const response = await apiCall('/gists')
+    const response = await apiCall(`/gists?rev=${Math.random()}`)
     if (typeof response === 'object' && !('error' in response) && Array.isArray(response)) {
         dispatch(setListData(response));
     }

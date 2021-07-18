@@ -9,7 +9,6 @@ const apiCall = async (url, method = 'GET', params) => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        // 'Authorization': 'token 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',
     };
     if(authorizationToken){
         headers.Authorization = `token ${authorizationToken}`

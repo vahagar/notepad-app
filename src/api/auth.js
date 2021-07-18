@@ -1,22 +1,14 @@
 import axios from 'axios';
 
-const host = 'https://api.github.com';
-
-
-const apiCall = async (url, method = 'GET', params) => {
-    const postUrl = host + url;
-    const authorizationToken = localStorage.getItem('access_token');
+const authCall = async (url, method = 'GET', params) => {
+    // const authorizationToken = localStorage.getItem('access_token');
     const headers = {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
         // 'Authorization': 'token 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',
     };
-    if(authorizationToken){
-        headers.Authorization = `token ${authorizationToken}`
-    }
 
     const options = {
-        url: postUrl,
+        url: url,
         method,
         headers,
     }
@@ -37,4 +29,4 @@ const apiCall = async (url, method = 'GET', params) => {
     }
 };
 
-export default apiCall;
+export default authCall;

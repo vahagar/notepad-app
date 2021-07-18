@@ -64,3 +64,6 @@ input, textarea, label{
 .mt-10{
     margin-top: 10px;
 }
+button:disabled{
+    cursor: no-drop;
+}

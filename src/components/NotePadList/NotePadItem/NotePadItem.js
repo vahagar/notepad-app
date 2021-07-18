@@ -23,6 +23,7 @@ const NotePadItem = (props) => {
     const [title, setTitle] = useState(notePadItem?.description || '');
     const [addedNot, setAddedNot] = useState({filename: '', content: ''});
     const isCreateMode = pathname === '/create';
+    const authorized = !!localStorage.getItem('access_token')
 
     const [notes, setNotes] = useState({})
 
@@ -142,6 +143,7 @@ const NotePadItem = (props) => {
                            id={`note-pad-title`}
                            placeholder='My notepad title...'
                            className={classes.title}
+                           disabled={!authorized}
                            value={title}
                            onChange={(e) => setTitle(e.target.value)}
                     />
@@ -149,9 +151,11 @@ const NotePadItem = (props) => {
                 <div className='mt-10'>
                     <Button title={isCreateMode ? 'Create' : 'Save'} type='save'
                             style={{marginRight: '10px'}}
+                            disabled={!authorized}
                             onClick={onSave}
                     />
                     <Button title='Delete' type='delete'
+                            disabled={!authorized}
                             onClick={onDelete}
                     />
                 </div>
@@ -161,6 +165,7 @@ const NotePadItem = (props) => {
                      changeFieldValue={changeFieldValue}
                      addNote={addNote}
                      deleteNote={deleteNote}
+                     disabled={!authorized}
             />
         </div>
     )

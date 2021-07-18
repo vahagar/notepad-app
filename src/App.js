@@ -9,7 +9,7 @@ import './App.css';
 
 export default function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/notepad-app">
             <div className='h1'>Notepad Application</div>
             <div className='content-container'>
                 <Switch>

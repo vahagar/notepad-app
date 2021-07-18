@@ -2,7 +2,7 @@ import React from 'react';
 
 import NoteItem from "./NoteItem/NoteItem";
 
-const NotesList = ({notes, changeFieldValue, deleteNote}) => {
+const NotesList = ({notes, changeFieldValue, deleteNote, disabled}) => {
     return(
         <div>
             {Object.keys(notes).map(filename => <NoteItem
@@ -11,6 +11,7 @@ const NotesList = ({notes, changeFieldValue, deleteNote}) => {
                 changeFieldValue={changeFieldValue}
                 key={filename}
                 deleteNote={deleteNote}
+                disabled={disabled}
             />)}
         </div>
     )

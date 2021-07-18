@@ -13,6 +13,7 @@ export default function App() {
             <div className='h1'>Notepad Application</div>
             <div className='content-container'>
                 <Switch>
+                    <Route path='/create' component={NotePadItem}/>
                     <Route path='/:id' component={NotePadItem}/>
                     <Route path='/' component={NotePadList}/>
                     <Redirect to='/'/>

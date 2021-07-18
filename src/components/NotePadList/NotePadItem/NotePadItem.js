@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useLocation, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 
 
@@ -7,14 +7,17 @@ import MyNotes from "../../MyNotes/MyNotes";
 import Button from "../../reusables/Button/Button";
 
 import classes from './NotePadItem.module.css'
-import {getNotePadAction, updateNotePadAction} from "../../../store/actions/notePadActions";
+import {createNotePadAction, getNotePadAction, updateNotePadAction} from "../../../store/actions/notePadActions";
 
 const NotePadItem = (props) => {
     const {id} = useParams();
-    const dispatch = useDispatch()
+    const {pathname} = useLocation();
+    let history = useHistory();
+    const dispatch = useDispatch();
     const notePadItem = useSelector(state => state.notePad.listById[id]);
     const [title, setTitle] = useState(notePadItem?.description || '');
-    const [addedNot, setAddedNot] = useState({filename: '', content: ''})
+    const [addedNot, setAddedNot] = useState({filename: '', content: ''});
+    const isCreateMode = pathname === '/create';
 
     const [notes, setNotes] = useState({})
 
@@ -99,15 +102,23 @@ const NotePadItem = (props) => {
             })
         }
         if (isValid) {
-            dispatch(updateNotePadAction({
-                gist_id: id,
-                description: title,
-                files: notes
-            }))
+            if(!isCreateMode) {
+                dispatch(updateNotePadAction({
+                    gist_id: id,
+                    description: title,
+                    files: notes
+                }))
+            } else {
+                dispatch(createNotePadAction({
+                    description: title,
+                    files: notes
+                }))
+                history.push('/')
+            }
         }
     }
 
-    if (!notePadItem) {
+    if (!notePadItem && !isCreateMode) {
         return <h1 style={{color: 'red'}}>Notepad not found</h1>
     }
 
@@ -126,7 +137,7 @@ const NotePadItem = (props) => {
                     />
                 </div>
                 <div className='mt-10'>
-                    <Button title='Save' type='save'
+                    <Button title={isCreateMode ? 'Create' : 'Save'} type='save'
                             style={{marginRight: '10px'}}
                             onClick={onSave}
                     />

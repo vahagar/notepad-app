@@ -32,8 +32,8 @@ const apiCall = async (url, method = 'get', params) => {
         // if (method === requestMethods.delete) return response;
         return response?.data
     } catch (e) {
-        console.log('error catch', e)
-        return e
+        console.log(e)
+        return ({error: e})
     }
 };
 
